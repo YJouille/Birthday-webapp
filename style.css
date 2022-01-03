@@ -1,0 +1,56 @@
+.container{
+    position: relative;
+    height: 100vh;
+    width: 30%;
+    overflow: hidden;
+}
+
+.list-person{
+    height: 60vh;
+   overflow: auto;
+}
+.btn-add{
+    position: absolute;
+    bottom: 0;
+   background-color: #42BDE3;
+   text-transform: uppercase;
+
+}
+.btn-form{
+    background-color: #42BDE3;
+}
+.title-item, .close-link{
+    color: #42BDE3;
+}
+
+/* Formulaire */
+.form {
+    position: absolute;
+    height: 395px;
+    width: 100%;
+    
+    bottom: -500px;
+    background: #fff;
+    transition: bottom 0.5s;
+    z-index: 2; 
+}
+
+.displayform{
+    display: block;
+    bottom: 0!important;
+}
+
+.profile{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    
+    bottom: -800px;
+    background: #fff;
+    transition: bottom 0.5s;
+}
+.displayprofil{
+    display: block;
+    bottom: 0!important;
+    z-index: 1;
+}
