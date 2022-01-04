@@ -1,25 +1,31 @@
-.container{
+#app {
     position: relative;
     height: 100vh;
-    width: 30%;
+    width: 90%;
+    max-width: 360px;
     overflow: hidden;
 }
 
-.list-person{
+.list-person {
     height: 60vh;
-   overflow: auto;
+    overflow: auto;
 }
-.btn-add{
-    position: absolute;
-    bottom: 0;
-   background-color: #42BDE3;
-   text-transform: uppercase;
 
+.btn-add {
+    /* position: absolute;
+    bottom: 0; */
+    background-color: #42BDE3;
+    text-transform: uppercase;
+    font-size:large;
+    
 }
-.btn-form{
+
+.btn-form {
     background-color: #42BDE3;
 }
-.title-item, .close-link{
+
+.title-item,
+.close-link {
     color: #42BDE3;
 }
 
@@ -27,30 +33,30 @@
 .form {
     position: absolute;
     height: 395px;
-    width: 100%;
-    
+    width: 90%;
+
     bottom: -500px;
     background: #fff;
     transition: bottom 0.5s;
-    z-index: 2; 
+    z-index: 2;
 }
 
-.displayform{
+.displayform {
     display: block;
-    bottom: 0!important;
+    bottom: 0 !important;
 }
 
-.profile{
+.profile {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    
-    bottom: -800px;
+    height: 100vh;
+    width: 95%;
+    bottom: -1000px;
     background: #fff;
     transition: bottom 0.5s;
 }
-.displayprofil{
+
+.displayprofil {
     display: block;
-    bottom: 0!important;
+    bottom: 0 !important;
     z-index: 1;
 }

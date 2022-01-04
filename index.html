@@ -14,42 +14,45 @@
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
     <title>Birthday Webapp</title>
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+    <!-- This favicon is designed by yut1655 -->
 </head>
 
-<body class="d-flex align-items-center justify-content-center my-3">
-
-    <div id="app" class="container border rounded p-3 mx-5 my-3">
-        <h1 class="fs-2 text-center m-3">Mes anniversaires</h1>
+<body class="d-flex align-items-center justify-content-center">
+    <div id="app" class="container p-3 mx-2 ">
+        <h1 class="fs-4 text-center m-3">Mes anniversaires</h1>
         <div class="form-group m-3">
-            <input type="text" v-model="searchTerm"  class="form-control rounded-pill" placeholder="Rechercher une personne"
-                id="searchPersonText">
+            <input type="text" v-model="searchTerm" class="form-control rounded-pill"
+                placeholder="Rechercher une personne" id="searchPersonText">
         </div>
-
         <div class="list-group list-person">
-            <div v-for="(birthday, n) in filterByTerm">
-                <a href="#" @click="showProfile(n) , showprofile = !showprofile"
-                    class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <img :src="birthday.image">
+            <div class="container m-0" v-for="birthday in filterByTerm">
+                <div @click="showProfile(birthday.name) , showprofile = !showprofile"
+                class="row g-0">
+                    <div class="col-3"><img :src="birthday.image"></div>
+
+                    <div class="col-8 d-flex flex-column justify-content-between">
                         <h5 class="mb-1 title-item">{{ birthday.name }}</h5>
                         <small>Dans {{ birthday.count }} jours</small>
+                        <p class="date mb-1">{{ birthday.dateFormated}}</p>
                     </div>
-                    <p class="date mb-1">{{ birthday.date }}</p>
-                    <a class="close-link text-center text-decoration-none " @click="removePerson(n)">Supp</a>
-                </a>
+
+                    <div class="col-1">
+                        <a class="close-link text-center text-decoration-none " @click.stop="removeBirthday(birthday.name)"><img alt=""
+                                src="img/delete.png" width="25" height="25"/></a></div>
+                </div>
             </div>
         </div>
 
         <div class="d-grid gap-2 mt-3">
-            <button v-on:click="showform = !showform" class="btn btn-lg btn-info btn-add m-3" type="button">ajouter un
+            <button v-on:click="showform = !showform" class="btn btn-lg btn-info btn-add" type="button">ajouter un
                 anniversaire</button>
         </div>
 
         <!--Formulaire ajout anniversaire-->
-
-        <form class="form" :class="{displayform : showform}">
+        <form v-on:submit.prevent="onSubmit" class="form" :class="{displayform : showform}">
             <fieldset>
-                <h3 class=" fs-4 text-center m-3">Ajouter un anniversaire</h3>
+                <h3 class=" fs-4 text-center p-3">Ajouter un anniversaire</h3>
                 <div class="form-group">
                     <label for="namePerson" class="col-sm-2 col-form-label">Nom</label>
                     <div class="col-sm-10">
@@ -67,14 +70,14 @@
                 <div class="form-group">
                     <label for="photo" class="col-sm-5 col-form-label">Photo</label>
                     <div class="col-sm-10">
-                        <input type="file" @change="uploadImage()" class="form-control rounded-pill" placeholder="Saisissez une url d'image"
-                            id="photo">
+                        <input type="file" @change="uploadImage()" class="form-control rounded-pill"
+                            placeholder="Saisissez une url d'image" id="photo">
                     </div>
                 </div>
             </fieldset>
 
             <button class="row btn btn-info btn-form my-3 rounded-pill col-sm-10 text-center" type="button"
-                v-on:click="addPerson(newName,newDate, newImage)">Ajouter</button>
+                v-on:click="addBirthday(newName,newDate, newImage)">Ajouter</button>
 
             <a class="row close-link text-center text-decoration-none" v-on:click="showform = !showform">Fermer</a>
         </form>
@@ -86,22 +89,16 @@
             <p>{{profilDate}}</p>
 
             <div class="form-group m-3">
-                <input type="text" v-model="searchGift"class="form-control rounded-pill" placeholder="Rechercher un cadeau" id="searchGift">
+                <input type="text" v-model="searchGift" class="form-control rounded-pill"
+                    placeholder="Rechercher un cadeau" id="searchGift">
             </div>
-            
-            <!-- <ul class="list-group">
-                <li  v-for="(value, n) in profilGift" class="list-group-item d-flex justify-content-between align-items-center">
-                  <span>{{ value.namegift }}</span>
-                  <span>{{ value.yeargift }}</span>
-                  <a class="close-link text-center text-decoration-none " @click="removeGift(n)">Supp</a>                  
-                </li>
-            </ul> -->
 
             <ul class="list-group">
-                <li  v-for="(value, n) in filterByGift" class="list-group-item d-flex justify-content-between align-items-center">
-                  <span>{{ value.namegift }}</span>
-                  <span>{{ value.yeargift }}</span>
-                  <a class="close-link text-center text-decoration-none " @click="removeGift(n)">Supp</a>                  
+                <li v-for="(value, n) in filterByGift"
+                    class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ value.namegift }}</span>
+                    <span>{{ value.yeargift }}</span>
+                    <a class="close-link text-center text-decoration-none " @click="removeGift(n)">Supp</a>
                 </li>
             </ul>
             <a class="row close-link text-center text-decoration-none"
@@ -115,7 +112,7 @@
         </div>
 
         <!-- Formulaire ajout cadeau -->
-        <form class=" form" :class="{displayform: showformgift}">
+        <form v-on:submit.prevent="onSubmit" class=" form" :class="{displayform: showformgift}">
             <fieldset>
                 <h3 class=" fs-4 text-center m-3">Ajouter un cadeau</h3>
                 <div class="form-group">
@@ -140,10 +137,8 @@
             <a class="row close-link text-center text-decoration-none"
                 v-on:click="showformgift = !showformgift">Fermer</a>
         </form>
-
-
     </div>
     <script src="app.js"></script>
-
 </body>
+
 </html>
