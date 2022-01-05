@@ -1,7 +1,7 @@
 #app {
     position: relative;
     height: 100vh;
-    width: 90%;
+    width: 100%;
     max-width: 360px;
     overflow: hidden;
 }
@@ -12,12 +12,13 @@
 }
 
 .btn-add {
-    /* position: absolute;
-    bottom: 0; */
+    position: absolute;
+    bottom: 0;
     background-color: #42BDE3;
     text-transform: uppercase;
     font-size:large;
-    
+    width: 100%;
+    left: 0;    
 }
 
 .btn-form {
@@ -33,8 +34,8 @@
 .form {
     position: absolute;
     height: 395px;
-    width: 90%;
-
+    width: 100%;
+    max-width: 360px;
     bottom: -500px;
     background: #fff;
     transition: bottom 0.5s;
@@ -49,7 +50,8 @@
 .profile {
     position: absolute;
     height: 100vh;
-    width: 95%;
+    width: 100%;
+    max-width: 360px;
     bottom: -1000px;
     background: #fff;
     transition: bottom 0.5s;

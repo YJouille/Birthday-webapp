@@ -19,7 +19,7 @@
 </head>
 
 <body class="d-flex align-items-center justify-content-center">
-    <div id="app" class="container p-3 mx-2 ">
+    <div id="app" class="container  ">
         <h1 class="fs-4 text-center m-3">Mes anniversaires</h1>
         <div class="form-group m-3">
             <input type="text" v-model="searchTerm" class="form-control rounded-pill"
@@ -63,7 +63,7 @@
                 <div class="form-group">
                     <label for="dateBirthday" class="col-sm-5 col-form-label">Date de naissance</label>
                     <div class="col-sm-10">
-                        <input v-model="newDate" type="date" class="form-control rounded-pill"
+                        <input v-model.date="newDate" type="date" class="form-control rounded-pill"
                             placeholder="Saisissez une date de naissance" id="dateBirthday">
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                 v-on:click="showprofile = !showprofile">Retour</a>
 
             <div class="d-grid gap-2 mt-3">
-                <button v-on:click="showformgift = !showformgift" class="btn btn-lg btn-info btn-add m-3"
+                <button v-on:click="showformgift = !showformgift" class="btn btn-lg btn-info btn-add"
                     type="button">ajouter un
                     cadeau</button>
             </div>
@@ -132,7 +132,7 @@
             </fieldset>
 
             <button class="row btn btn-info btn-form my-3 rounded-pill col-sm-10 text-center" type="button"
-                v-on:click="addGift(newYearGift, newGift )">Ajouter</button>
+                v-on:click="addGift(newYearGift, newGift)">Ajouter</button>
 
             <a class="row close-link text-center text-decoration-none"
                 v-on:click="showformgift = !showformgift">Fermer</a>

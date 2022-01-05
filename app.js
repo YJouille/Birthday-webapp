@@ -14,7 +14,7 @@ var myObject = new Vue({
     newYearGift: "",
     newGift: "",
     showformgift: false,
-    profileOpen: "",
+   
     profilGift: "",
     searchTerm: "",
     searchGift: "",
@@ -59,7 +59,6 @@ var myObject = new Vue({
       let profile = this.birthdays.find(element =>element.name == name);
       this.profilName = profile.name;
       this.profilDate = profile.date;
-
      // this.profileOpen = index;
       this.profilGift = profile.gifts;
 
@@ -95,15 +94,17 @@ var myObject = new Vue({
     },
 
     addGift: function (newYearGift, newGift) {
-
-      this.birthdays[this.profileOpen].gifts.push({
+      let where = this.indexOf(this.profilName);
+     
+      this.birthdays[where].gifts.push({
         yeargift: newYearGift,
         namegift: newGift,
       });
+
       //Ordonner les cadeaux par année
       //to do : faire en sorte que ça se rafraichisse automatiquement!!!!!
 
-      this.birthdays[this.profileOpen].gifts = _.orderBy(this.birthdays[this.profileOpen].gifts, "yeargift" , "desc" );
+      this.birthdays[where].gifts = _.orderBy(this.birthdays[where].gifts, "yeargift" , "desc" );
 
      // console.log("tableau birthdays " + this.birthdays);
       //[{name: "jiji", date: "2021-12-17", countdown: 20, gifts:{yeargift: "2004", namegift:"velo"}},
@@ -124,6 +125,11 @@ var myObject = new Vue({
       console.log('profil a supprimer',profileIndex);
       this.birthdays.splice(profileIndex, 1);
       this.saveBirthdays();
+
+    },
+    indexOf(name){
+      let profileIndex = this.birthdays.findIndex(element =>element.name == name);
+      return profileIndex;
     },
 
     removeGift(x) {
