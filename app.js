@@ -1,3 +1,6 @@
+// Initialization
+const compress = new Compress();
+
 var myObject = new Vue({
   el: "#app",
   data: {
@@ -14,7 +17,6 @@ var myObject = new Vue({
     newYearGift: "",
     newGift: "",
     showformgift: false,
-   
     profilGift: "",
     searchTerm: "",
     searchGift: "",
@@ -42,46 +44,59 @@ var myObject = new Vue({
       });
     },
 
-    filterByGift() {    
+    filterByGift() {
       if (this.profilGift) {
         return this.profilGift.filter((value) => {
           return value.namegift
             .toLowerCase()
             .includes(this.searchGift.toLowerCase());
         });
-      }  
+      }
     },
   },
 
   methods: {
     showProfile: function (name) {
       //console.log('tableau birthdays ' + this.birthdays);
-      let profile = this.birthdays.find(element =>element.name == name);
+      let profile = this.birthdays.find((element) => element.name == name);
       this.profilName = profile.name;
       this.profilDate = profile.date;
-     // this.profileOpen = index;
+      // this.profileOpen = index;
       this.profilGift = profile.gifts;
 
-     console.log("profil ouvert " + this.profilName);
-    },
-    
-    uploadImage() {
-      //To do compresser l'image avant de la convertir 
-      const file = document.getElementById("photo").files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        this.newImage = reader.result;
-        console.log(this.newImage);
-        console.log("file",file);
-      };
-      reader.readAsDataURL(file);
+      console.log("profil ouvert " + this.profilName);
     },
 
-    addBirthday: function (newName, newDate, newImage) {  
-      this.birthdays.push({ 
+    uploadImage() {
+      console.log('upload image')
+      //To do compresser l'image avant de la convertir
+      const files = [document.getElementById("photo").files[0]];
+      
+      compress
+        .compress(files, {
+          size: 4, // the max size in MB, defaults to 2MB
+          quality: 0.75, // the quality of the image, max is 1,
+          maxWidth: 1920, // the max width of the output image, defaults to 1920px
+          maxHeight: 1920, // the max height of the output image, defaults to 1920px
+          resize: true, // defaults to true, set false if you do not want to resize the image width and height
+          rotate: false, // See the rotation section below
+        })
+        .then((data) => {
+          console.log('data',data);
+          this.newImage ='data:image/jpeg;base64,'+data[0].data;
+        });
+    },
+
+    addBirthday: function (newName, newDate, newImage) {
+      this.birthdays.push({
         name: newName,
         date: newDate,
-        dateFormated : newDate.slice(8)+'/'+newDate.slice(5,7)+'/'+newDate.slice(0,4),
+        dateFormated:
+          newDate.slice(8) +
+          "/" +
+          newDate.slice(5, 7) +
+          "/" +
+          newDate.slice(0, 4),
         image: newImage,
         count: this.countdown(),
         gifts: [],
@@ -90,12 +105,15 @@ var myObject = new Vue({
       this.birthdays = _.orderBy(this.birthdays, "count", "asc");
 
       this.saveBirthdays();
-      (this.showform = false), (this.newName = ""),(this.newImage= ""),(this.newDate = "");
+      (this.showform = false),
+        (this.newName = ""),
+        (this.newImage = ""),
+        (this.newDate = "");
     },
 
     addGift: function (newYearGift, newGift) {
       let where = this.indexOf(this.profilName);
-     
+
       this.birthdays[where].gifts.push({
         yeargift: newYearGift,
         namegift: newGift,
@@ -104,16 +122,20 @@ var myObject = new Vue({
       //Ordonner les cadeaux par année
       //to do : faire en sorte que ça se rafraichisse automatiquement!!!!!
 
-      this.birthdays[where].gifts = _.orderBy(this.birthdays[where].gifts, "yeargift" , "desc" );
+      this.birthdays[where].gifts = _.orderBy(
+        this.birthdays[where].gifts,
+        "yeargift",
+        "desc"
+      );
 
-     // console.log("tableau birthdays " + this.birthdays);
+      // console.log("tableau birthdays " + this.birthdays);
       //[{name: "jiji", date: "2021-12-17", countdown: 20, gifts:{yeargift: "2004", namegift:"velo"}},
       // {name: "titi", date: "2021-12-16", countdown: 20}]
       //console.log("dsfdf", this.birthdays[this.profileOpen]);
 
       this.saveBirthdays();
 
-      (this.showformgift = false),(this.newYearGift = ""),(this.newGift = "");
+      (this.showformgift = false), (this.newYearGift = ""), (this.newGift = "");
       // même syntaxe
       // this.showformgift = false;
       // this.newYearGift = "";
@@ -121,14 +143,17 @@ var myObject = new Vue({
     },
 
     removeBirthday(name) {
-      let profileIndex = this.birthdays.findIndex(element =>element.name == name);
-      console.log('profil a supprimer',profileIndex);
+      let profileIndex = this.birthdays.findIndex(
+        (element) => element.name == name
+      );
+      console.log("profil a supprimer", profileIndex);
       this.birthdays.splice(profileIndex, 1);
       this.saveBirthdays();
-
     },
-    indexOf(name){
-      let profileIndex = this.birthdays.findIndex(element =>element.name == name);
+    indexOf(name) {
+      let profileIndex = this.birthdays.findIndex(
+        (element) => element.name == name
+      );
       return profileIndex;
     },
 
